@@ -1,0 +1,96 @@
+\chapter{Gitの備忘録}
+\section{Gitのインストール}
+基本的にインストーラを立ち上げるだけである。
+Cygwinを使っている場合はgitで検索をかけて
+以下のパッケージをインストールする\cite{qiita_kanpou}。\\
+Devel/git\\Devel/git-completion\\Devel/git-cvs\\
+Debug/git-debuginfo\\Devel/git-email\\Devel/git-gui\\
+Devel/git-svn\\Devel/gitk
+\section{Gitの初期設定}
+ホームディレクトリに置かれる.gitconfigを直接弄っても良いが
+初心者なので以下のコマンド実行で済ませた。\\
+git config --global user.name <user-name>\\
+git config --global user.email <mail-address>\\
+git config --global color.ui auto\\
+git config --global core.editor emacs\\
+git config --global alias.co checkout\\
+git config --global alias.ci commit\\
+git config --global alias.br branch\\
+git config --global alias.st status\\
+git config --global push.default current (or simple)\\
+\section{レポジトリの作成}
+gitの管理下におきたいディレクトリへ移動してgit initを実行する。
+.gitignoreというファイルを作成してgitの管理下に置きたくない
+バイナリファイルを指定する。指定には正規表現が使えるので、
+*.oのようにする。ディレクトリを指定する場合はtmp/のようにする。
+
+push先となるリモートレポジトリは、リモートレポジトリとしたいディレクトリへ移動してgit init --bare --sharedを実行する。
+GitHubを利用する場合はNew Repositoryボタン押して適当にやってればリモートレポジトリが出来る。
+\section{基本操作}
+\subsubsection{git add .またはgit add \kagi{file}}
+ファイルをインデックスに登録するという意味らしい。
+とにかく管理下に置きたいファイルを登録するという認識で問題なさそう。
+.gitignoreを作成しておけばgit add .で指定されたファイル以外全てと黒くしてくれるので非常に楽である。
+\subsubsection{git  status}
+管理対象のファイルやインデックス登録されているかなど状態を見れる。
+\subsubsection{git commit -m  ''coment''}
+自分はわからなかったが「コミットする」で意味が通じるらしい。
+ログを記憶する・セーブする程度の認識だろうか。
+コミットするとハッシュ値が与えられ、
+それを指定することでファイルの状態を戻せるようになる、すごい。
+\subsubsection{git log}
+コミットのログが見れる。ハッシュ値もこれで見れる。
+\subsubsection{git checkout \kagi{hash-balue}}
+ファイルの状態を各コミットの状態にする。
+戻ってもログが消えるわけではない。
+\subsubsection{git branch \kagi{branch-name}}
+新しいブランチを作成する。
+何も設定していないとmasterというブランチでコミットが進んでいくが、
+新たなブランチを作ることでコミットを枝分かれさせる。
+作業を複数人で分けたり作業内容でブランチをわけて後で統合する、といった場面で使うのだろうか。
+\subsubsection{git checkout \kagi{branch-name}}
+ブランチを切り替える。
+ブランチ作成と同時にブランチを切り替えるgit checkout -b \kagi{branch-name}という方法もあるようだ。
+\subsubsection{git merge \kagi{branch-name}}
+現在いるブランチに\kagi{branch-name}で指定したブランチを統合する。
+競合が起こると競合部分に以下の表示が出て地獄のような感じになるので、
+競合部分を修正して改めてコミットする必要がある。\\
+\texttt{<<<<<<< HEAD}\\
+（競合部分）\\
+\texttt{>>>>>>> branch}
+\subsubsection{git reset --hard \kagi{hash-value}}
+ファイルの状態を各コミットの状態にするが、そこまでのログが全て失われる強力なコマンド。
+\subsubsection{git revert \kagi{hash-value}}
+\kagi{hash-value}で指定される変更をなかったことにするコミットを作成する。
+ある変更だけを取り除きたいときに使うのだろうか。
+\subsubsection{git push origin \kagi{branch-name}}
+現在の状態をブランチを指定してリモートレポジトリに送る。
+引数無指定ならpush.defaultの設定に依存してpushが行われる。
+\subsubsection{git remote add \kagi{url}}
+push先のレモートレポジトリを指定する。指定しないとpushできない。
+\kagi{url}にはhttps://---.jp:~/---.gitやssh:/username@server:~/---gitなどが入ることになる。
+\subsubsection{git pull origin \kagi{branch-name}}
+リモートレポジトリからブランチを指定してローカルレポジトリを更新する。
+\subsubsection{git fetch origin \kagi{branch-name}}
+リモートレポジトリからブランチを指定して編集履歴を更新する。
+ファイルにはまだ反映されておらず、git merge FETCH\_HEADとすることで初めて反映される。
+pull = fetch + mergeということになる。
+\subsubsection{git clone \kagi{url} (\kagi{dir-name})}
+リモートレポジトリをローカルにコピーしてローカルレポジトリとする。
+プロジェクトを初めに持ってくるときやインストールなどで使う。
+\subsubsection{git rm \kagi{file} -f}
+あるファイルを管理対象から外し、更に削除する。
+\subsubsection{git rm --cached \kagi{file}}
+あるファイルを管理対象から外すだけ。
+
+\section{その他}
+.gitignoreが共有されてない状態でpullすると拒否されることがあるが、
+git fetch origin \kagi{branch-name}とgit reset --hard FETCH\_HEADで回避できる。
+
+git log --graph でコミットツリーの可視化ができるが汚い。
+git log --graph --pretty=onelineなどを使えばそこそこ見えるようになる。
+tigを使うことで可視化しつつdiffなども詳細に見ることができるのでtig使えば全て解決する。
+
+
+
+

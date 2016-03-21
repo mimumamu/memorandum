@@ -1,0 +1,201 @@
+%\documentclass[a4paper,11pt]{jarticle}
+%\documentclass[a4paper,12pt]{jsbook}
+\documentclass[a4paper,11pt,onecolumn,twoside,openright]{jsbook}
+
+
+%
+%  preamples 
+%
+
+
+% ** User Preference Options **
+\usepackage{sty/thesis}
+
+%% find old command or package
+%\RequirePackage[l2tabu, orthodox]{nag} 
+
+%% graphics
+\usepackage[dvipdfmx]{graphicx}
+\graphicspath{{fig/}}
+
+%% subfigure
+\usepackage{subcaption}
+
+%% color
+\usepackage[dvipdfmx]{color}
+
+%% yohaku
+\usepackage[driver=dvipdfm,truedimen,margin=2cm]{geometry}
+\geometry{left=30mm,right=30mm,top=35mm,bottom=30mm} % for yohaku
+\usepackage{here}
+
+%% math
+%\usepackage[all, warning]{onlyamsmath} % warn if using mathematics that amsmath don't provide
+\usepackage{amsmath}
+\usepackage{mathptmx}
+\usepackage{amssymb}
+
+%% fonts
+%\usepackage{txfonts}
+%\usepackage{newtxtext,newtxmath}
+\usepackage{mathptmx}
+\usepackage{bm}
+\usepackage{amssymb}
+
+% subsection display
+\setcounter{tocdepth}{2}
+
+%% algorithm
+%\usepackage{algpseudocode,algorithm}
+
+%% table
+\usepackage{multirow}
+
+%% hyper link
+\usepackage[
+    dvipdfmx,
+    linktocpage=true,
+    bookmarkstype=toc=true,
+    colorlinks=true,
+    allcolors=black
+]{hyperref}
+\usepackage{pxjahyper}
+
+% for warning
+\input{sty/jdummy.def}
+
+%
+% macros
+%
+
+% 画像引用
+\newcommand{\Figref}[1]{\figurename~\ref{#1}}
+% 表引用
+\newcommand{\Tabref}[1]{\tablename~\ref{#1}}
+% 数式引用
+\newcommand{\Eqref}[1]{式~(\ref{#1})}
+
+% 微分
+\newcommand{\diff}[2]{\cfrac{\mathrm{d}#1}{\mathrm{d} #2}}
+\newcommand{\cdiff}[2]{\cfrac{\mathrm{d}#1}{\mathrm{d} #2}}
+\newcommand{\tdiff}[2]{\tfrac{\mathrm{d}#1}{\mathrm{d} #2}}
+\newcommand{\ddiff}[2]{\frac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
+\newcommand{\cddiff}[2]{\cfrac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
+\newcommand{\tddiff}[2]{\tfrac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
+% 偏微分
+\newcommand{\pdiff}[2]{\cfrac{\partial #1}{\partial #2}}
+\newcommand{\cpdiff}[2]{\cfrac{\partial #1}{\partial #2}}
+\newcommand{\tpdiff}[2]{\tfrac{\partial #1}{\partial #2}}
+\newcommand{\pddiff}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\cpddiff}[2]{\cfrac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\tpddiff}[2]{\tfrac{\partial^2 #1}{\partial #2^2}}
+
+% 逆数
+\newcommand{\rev}[1]{\frac{1}{#1}}
+\newcommand{\crev}[1]{\cfrac{1}{#1}}
+\newcommand{\trev}[1]{\tfrac{1}{#1}}
+
+% 斜体Δ
+\newcommand{\D}{\varDelta}
+\newcommand{\Dt}{\varDelta t}
+\newcommand{\Dx}{\varDelta x}
+\newcommand{\Dy}{\varDelta y}
+\newcommand{\Dz}{\varDelta z}
+
+% ∇
+\newcommand{\Grad}{\nabla}
+\newcommand{\Div}{\nabla\cdot}
+\newcommand{\Rot}{\nabla\times}
+
+\newcommand{\kagi}[1]{\textless#1\textgreater} % angle brackets < >
+
+% 括弧
+\newcommand{\kakko}[1]{\left(#1\right)} % parenthesis ( )
+\newcommand{\ckakko}[1]{\left\{#1\right\}} % curly braces { }
+\newcommand{\skakko}[1]{\left[#1\right]} % square blackets [ ]
+\newcommand{\akakko}[1]{\left\langle#1\right\rangle} % angle brackets < >
+\newcommand{\abs}[1]{\left|#1\right|} % absolute value | |
+\newcommand{\norm}[1]{\left\|#1\right\|} % norm || ||
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor} % floor
+
+% 2列ベクトル
+\newcommand{\vectwo}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vecthree}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vecfive}[5]{\begin{bmatrix}#1\\#2\\#3\\#4\\#5\end{bmatrix}}
+\newcommand{\vecsix}[6]{\begin{bmatrix}#1\\#2\\#3\\#4\\#5\\#6\end{bmatrix}}
+
+% pmatrix, vmatrix のショートカット
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\vmat}[1]{\begin{vmatrix}#1\end{vmatrix}}
+
+% 場合分け
+\newcommand{\case}[1]{\begin{cases}#1\end{cases}}
+
+% displaystyle
+\newcommand{\disp}{\displaystyle}
+
+% for RK pth step
+\newcommand{\step}[1]{{\langle #1 \rangle}}
+
+% ベクトル用太字の定義
+\bmdefine{\Va}{\bm{a}}
+\bmdefine{\Vb}{\bm{b}}
+\bmdefine{\Vc}{\bm{c}}
+\bmdefine{\Vd}{\bm{d}}
+\bmdefine{\Ve}{\bm{e}}
+\bmdefine{\Vf}{\bm{f}}
+\bmdefine{\Vg}{\bm{g}}
+\bmdefine{\Vh}{\bm{h}}
+\bmdefine{\Vi}{\bm{i}}
+\bmdefine{\Vj}{\bm{j}}
+\bmdefine{\Vk}{\bm{k}}
+\bmdefine{\Vl}{\bm{l}}
+\bmdefine{\Vm}{\bm{m}}
+\bmdefine{\Vn}{\bm{n}}
+\bmdefine{\Vo}{\bm{o}}
+\bmdefine{\Vp}{\bm{p}}
+\bmdefine{\Vq}{\bm{q}}
+\bmdefine{\Vr}{\bm{r}}
+\bmdefine{\Vs}{\bm{s}}
+\bmdefine{\Vt}{\bm{t}}
+\bmdefine{\Vu}{\bm{u}}
+\bmdefine{\Vv}{\bm{v}}
+\bmdefine{\Vw}{\bm{w}}
+\bmdefine{\Vx}{\bm{x}}
+\bmdefine{\Vy}{\bm{y}}
+\bmdefine{\Vz}{\bm{z}}
+
+\bmdefine{\VA}{\bm{A}}
+\bmdefine{\VB}{\bm{B}}
+\bmdefine{\VC}{\bm{C}}
+\bmdefine{\VD}{\bm{D}}
+\bmdefine{\VE}{\bm{E}}
+\bmdefine{\VF}{\bm{F}}
+\bmdefine{\VG}{\bm{G}}
+\bmdefine{\VH}{\bm{H}}
+\bmdefine{\VI}{\bm{I}}
+\bmdefine{\VJ}{\bm{J}}
+\bmdefine{\VK}{\bm{K}}
+\bmdefine{\VL}{\bm{L}}
+\bmdefine{\VM}{\bm{M}}
+\bmdefine{\VN}{\bm{N}}
+\bmdefine{\VO}{\bm{O}}
+\bmdefine{\VP}{\bm{P}}
+\bmdefine{\VQ}{\bm{Q}}
+\bmdefine{\VR}{\bm{R}}
+\bmdefine{\VS}{\bm{S}}
+\bmdefine{\VT}{\bm{T}}
+\bmdefine{\VU}{\bm{U}}
+\bmdefine{\VV}{\bm{V}}
+\bmdefine{\VW}{\bm{W}}
+\bmdefine{\VX}{\bm{X}}
+\bmdefine{\VY}{\bm{Y}}
+\bmdefine{\VZ}{\bm{Z}}
+
+\bmdefine{\Vzero}{\bm{0}}
+
+\bmdefine{\Vphi}{\bm{\phi}}
+\bmdefine{\Vsigma}{\bm{\sigma}}
+\bmdefine{\Vtheta}{\bm{\theta}}
+\bmdefine{\VTheta}{\bm{\Theta}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

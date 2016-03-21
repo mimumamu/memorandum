@@ -1,0 +1,107 @@
+% This is a file `csg-thesis.sty'.
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{thesis}[2004/04/09 CSG Thesis Style]
+
+% definitions
+\def\title#1{\def\@title{#1}}
+\def\etitle#1{\def\@etitle{#1}} 
+\def\author#1{\def\@author{#1}}
+\def\eauthor#1{\def\@eauthor{#1}}	
+\def\date#1{\def\@date{#1}}
+\def\department#1{\def\@department{#1}}
+\def\schoolyear#1{\def\@schoolyear{#1}}
+\def\stnumber#1{\def\@stnumber{#1}}
+\def\supervisor#1{\def\@supervisor{#1}}
+\def\esupervisor#1{\def\@esupervisor{#1}}
+\def\degree#1{\def\@degree{#1}}
+
+\renewcommand{\figurename}{Fig.}
+\renewcommand{\tablename}{Table}
+
+\renewcommand\maketitle{
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \begingroup
+      \def\baselinestretch{1}
+      \@normalsize
+      \topmargin=1.25in
+      \headheight=0pt
+      \headsep=0pt
+      \@tempdima=\paperwidth
+      \advance\@tempdima by -\textwidth
+      \divide\@tempdima by 2
+      \advance\@tempdima by -1in
+      \oddsidemargin=\@tempdima
+      \let\evensidemargin=\oddsidemargin
+      \newcommand\@large{\@setfontsize\large\@xivpt{18}}
+      \newcommand\@Large{\@setfontsize\Large\@xviipt{22}}
+      \newcommand\@LARGE{\@setfontsize\LARGE\@xxpt{25}}
+      \newcommand\@huge{\@setfontsize\huge\@xxvpt{30}}
+      \begin{center}
+      
+        \vbox to 2.5in{%
+          \vfil
+%          {\@Large \@schoolyear 度 \@degree 論文}\\
+          \vfil}%
+        \vbox to 2.0in{%
+          {\@huge \@title}\\[16pt]
+%          {\@LARGE \@etitle}\\
+          \vfil}%
+%        \vbox to 2.0in{%
+%          {\@Large \@department}\\[10pt]
+%          {\@Large 学籍番号 \@stnumber}\\[10pt]
+%          {\@Large \@author}\\[3pt]
+%          {\@Large \@eauthor}\\
+%          \vfil}%
+        \vbox to 0.5in{%
+           {\@Large \@author}\\[3pt]
+%          {\@Large 指導教員}\\[10pt]
+%          {\@Large \@supervisor}\\[3pt]
+%          {\@Large \@esupervisor}\\
+          \vfil}%
+        \vbox to 0.5in{%
+          {\@Large \@date}\\
+          \vfil}%
+      \end{center}
+    \endgroup
+  \end{titlepage}
+}
+
+\pagestyle{headings}
+
+\topmargin 0.3cm
+%\textwidth 41zw 
+\textwidth 43zw 
+\oddsidemargin  0.5cm
+\evensidemargin 0.5cm
+\headsep 1.0cm
+\parindent 1zw
+\baselineskip  1.8zw
+
+\setcounter{topnumber}{5}
+\def\topfraction{1.00}
+\setcounter{bottomnumber}{5}
+\def\bottomfraction{1.00}
+\setcounter{totalnumber}{10}
+\def\textfraction{0.1}
+\def\floatpagefraction{0.7}
+
+\long\def\@makecaption#1#2{
+ \vskip 10pt 
+ \setbox\@tempboxa\hbox{#1. #2}
+ \ifdim \wd\@tempboxa >\hsize \unhbox\@tempboxa\par \else \hbox
+to\hsize{\hfil\box\@tempboxa\hfil} 
+ \fi}
+
+\def\abstract{
+\titlepage
+\chapter*{概要}}
+\def\endabstract{\thispagestyle{empty}\endtitlepage}
+
+\def\acknowledgments{
+%\titlepage
+\chapter*{謝辞}}
+%\def\endacknowledgments{\thispagestyle{empty}\endtitlepage}
+
+\def\bibname{参考文献}\def\endbibname{}
+

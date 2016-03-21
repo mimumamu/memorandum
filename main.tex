@@ -1,0 +1,42 @@
+% Preamble
+\input{preamble}
+
+% info
+\input{thesis-info}
+
+% begin of document
+\begin{document}
+\frontmatter
+
+\maketitle
+\hypertarget{mokuji}{}
+\setcounter{page}{0}
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+
+% main
+\mainmatter
+
+\include{src/chapter_git/chapter_git}
+\include{src/chapter_nvcccl/chapter_nvcccl}
+\include{src/chapter_dual/chapter_dual}
+%\include{src/chapter1/chapter1}
+%\include{src/chapter1a/chapter1a}
+%\include{src/chapter2/chapter2}
+%\include{src/chapter3/chapter3}
+%\include{src/chapter4/chapter4}
+%\include{src/chapter5/chapter5}
+%\include{src/appendix/appendix}
+
+\backmatter
+%\include{src/nomenclature/nomenclature}
+%\include{src/acknowledgment/acknowledgment}
+
+% bibliography
+\bibliographystyle{junsrt}
+\cleardoublepage
+\bibliography{bib/reference}
+
+\end{document}

@@ -1,0 +1,61 @@
+\chapter{Windows+CUDAの備忘録}
+2015年以前、
+WindowsでCUDAを利用するためにVisual Studio Pro (有償)に付属している
+コンパイラを使う必要があったため敷居は非常に高かった。
+しかし、2015年にMicrosoft社がVisual Studio Community 2013をリリースしたことで
+無償でCUDAを利用することが可能になった。
+WindowsでCUDAを利用するための手順について簡単に纏める。
+\section{CUDA ToolkitとVisual Studio Communityのインストール}
+CUDAを利用するためにはCUDA Toolkitと呼ばれるものとVisual Studio Communityを
+インストールする必要がある（正確にはVisual Studio Community内に存在するコンパイラcl.exe）。
+それぞれ対応するバーションがあるので確認したのち、Visual Studio Community→CUDA Toolkitの順番でインストールする。
+ここではCUDA Toolkit ver7.5とそれに対応するVisual Studio Community 2013をインストールした。
+\section{環境変数PATHの設定}
+インストールしたVisual Studio Community内のコンパイラcl.exeが利用できるよう環境変数PATHを追加する。
+Visual Studio Community 2013であれば、cl.exeが置いてある
+C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/binを
+Windowsの環境変数PATHに追加する。
+\section{nvcc+cl環境のコンパイル}
+CUDAのコンパイラであるnvccによってコンパイルを行うが、
+様々なオプションを指定する必要がある。具体的には以下の様なコマンドによってコンパイルを実行した。\\
+\texttt{\$ nvcc (-c) (-o <file>) \textbackslash}\\
+\texttt{\$ --compiler-bindir "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin" \textbackslash}\\
+\texttt{\$ --compiler-options  /EHsc,/W3,/nologo,/O2,/Zi,/MT \textbackslash}\\
+\texttt{\$ -m64 -DWIN32 -D\_CONSOLE -D\_MBCS \textbackslash}\\
+\texttt{\$ -DM\_PI=3.14159265358979323846 \textbackslash}\\
+\texttt{\$ -arch sm\_30 -O3 -use\_fast\_math -restrict}
+
+\texttt{--compiler-bindir "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin"}はnvccにcl.exeを使うように指定する。
+\texttt{--compiler-options  /EHsc,/W3,/nologo,/O2,/Zi,/MT}
+はcl.exeへのオプション渡す。
+特に重要なオプションはcl.exeでC++のエラー周りを制御する
+\texttt{/EHsc}、最適化オプション\text{/O2}、マルチスレッドを
+有効にする\texttt{/MT}である。
+\texttt{-m64}は利用しているコンピュータに合わせてbit数を指定する。
+ \texttt{-DWIN32 -D\_CONSOLE -D\_MBCS}でマクロを定義しておく。
+\texttt{WIN32}は Win32 API を使用することを表すシンボル。
+Microsoft 提供のヘッダファイル等で参照され、ポインタのバイト長が変わったりする。
+\texttt{\_CONSOLE}は標準 C ライブラリや Windows API がこれらのマクロシンボルを使うことはなく、
+プログラム作成側の利便性のためにのみ用意されているらしい。
+\texttt{\_MBCS, \_UNICODE, UNICODE}は
+ Microsoft の API で多用されるジェネリックテキストマッピングの動作を切り替えるためのマクロシンボル。
+Microsoft 提供のヘッダファイル等で参照され、呼び出される WinAPI が変わったりする。
+cl.exeでは円周率\texttt{M\_PI}が定義されていないので必要であれば定義する。
+あとは通常のnvccのオプションとして、
+\texttt{-arch sm\_30 -O3 -use\_fast\_math -restrict}などを指定する。
+\texttt{-arch sm\_**}は利用するGPUのアーキテクチャを指定する。
+\texttt{-O3 -use\_fast\_math -restrict}は計算高速化に関係するオプションである。
+コンパイルで生成される.exeはcygwin上でも、
+Windowsのコマンドプロンプトでも実行できる。
+因みにMakefileのための依存関係ファイルはcygwinでは以下のように作れる。\\
+\texttt{\$ nvcc -M -ddp /cygdrive/ \$<  >  ./depend/\$<.d}\\
+
+
+
+
+
+
+
+
+
+
